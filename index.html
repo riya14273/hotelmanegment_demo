@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseCare Hospital - Advanced Healthcare & Management System</title>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Top Emergency & Info Banner (Portal Header) -->
+  <header class="top-emergency-bar">
+    <div class="container bar-content">
+      <div class="bar-left">
+        <span><i class="fa-solid fa-phone-volume"></i> 24/7 Emergency: <strong>+1 (800) 437-CARE</strong></span>
+        <span class="bar-divider">|</span>
+        <span><i class="fa-solid fa-location-dot"></i> 742 Evergreen Healthcare Ave, Metro City</span>
+      </div>
+      <div class="bar-right">
+        <span><i class="fa-solid fa-clock"></i> OPD Hours: Mon - Sat 8:00 AM - 9:00 PM</span>
+        <span class="bar-divider">|</span>
+        <button id="theme-toggle-btn" class="theme-toggle" title="Toggle Dark/Light Mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-navbar" id="main-nav">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" onclick="app.showView('portal-view')">
+        <div class="logo-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <div class="logo-text">
+          <span class="logo-title">PulseCare</span>
+          <span class="logo-sub">Multi-Specialty Hospital</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About Us</a></li>
+        <li><a href="#departments" class="nav-link">Departments</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#doctors" class="nav-link">Doctors</a></li>
+        <li><a href="#testimonials" class="nav-link">Stories</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <button class="btn btn-outline" id="portal-dashboard-btn" onclick="app.showDashboard()">
+          <i class="fa-solid fa-gauge-high"></i> <span>HMS Dashboard</span>
+        </button>
+        <button class="btn btn-primary" onclick="app.openAppointmentModal()">
+          <i class="fa-regular fa-calendar-check"></i> <span>Book Appointment</span>
+        </button>
+        <button class="btn btn-icon mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==============================================
+       VIEW 1: PUBLIC HOSPITAL PORTAL (LANDING PAGE)
+       ============================================== -->
+  <main id="portal-view" class="view-section active">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge-pill">
+            <i class="fa-solid fa-shield-halved"></i> NABH & JCI Accredited Hospital
+          </div>
+          <h1 class="hero-title">Your Health, <span class="gradient-text">Our Priority</span></h1>
+          <p class="hero-description">
+            Experience world-class healthcare with cutting-edge medical technology, compassionate world-renowned specialists, and 24/7 comprehensive emergency intensive care services.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary btn-lg" onclick="app.openAppointmentModal()">
+              <i class="fa-solid fa-calendar-plus"></i> Book Instant Appointment
+            </button>
+            <a href="#departments" class="btn btn-outline-white btn-lg">
+              <i class="fa-solid fa-stethoscope"></i> Explore Specialties
+            </a>
+          </div>
+          <div class="hero-trust-badges">
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-user-doctor"></i></div>
+              <div class="trust-info">
+                <strong>150+ Doctors</strong>
+                <span>Board Certified</span>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-bed-pulse"></i></div>
+              <div class="trust-info">
+                <strong>500+ Beds</strong>
+                <span>Modern ICU Units</span>
+              </div>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+              <div class="trust-info">
+                <strong>99.4%</strong>
+                <span>Positive Outcomes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card-col">
+          <div class="floating-quick-card">
+            <div class="quick-card-header">
+              <i class="fa-solid fa-bolt text-teal"></i>
+              <h3>Quick OPD Appointment</h3>
+            </div>
+            <p class="quick-card-sub">Reserve your doctor slot in 30 seconds</p>
+            <form id="hero-quick-form" onsubmit="app.handleQuickAppointment(event)">
+              <div class="form-group">
+                <label><i class="fa-solid fa-user"></i> Patient Name</label>
+                <input type="text" id="quick-name" placeholder="e.g. Eleanor Vance" required class="form-control">
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-phone"></i> Mobile Phone</label>
+                <input type="tel" id="quick-phone" placeholder="e.g. +1 (555) 019-2834" required class="form-control">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label><i class="fa-solid fa-hospital"></i> Department</label>
+                  <select id="quick-dept" required class="form-control" onchange="app.filterQuickDoctors()">
+                    <option value="">Select Specialty</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Emergency Care">Emergency Care</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-calendar"></i> Date</label>
+                  <input type="date" id="quick-date" required class="form-control">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                <span>Confirm Reservation</span> <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Metrics Highlight Ribbon -->
+    <section class="stats-ribbon">
+      <div class="container stats-flex">
+        <div class="stat-box">
+          <div class="stat-number" data-count="35000">35,000+</div>
+          <div class="stat-label">Happy Patients Treated</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" data-count="120">120+</div>
+          <div class="stat-label">Specialist Doctors</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" data-count="24">24/7</div>
+          <div class="stat-label">Emergency Trauma Center</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" data-count="99">99.8%</div>
+          <div class="stat-label">Patient Satisfaction</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+      <div class="container about-grid">
+        <div class="about-images-wrapper">
+          <div class="about-main-img">
+            <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="Hospital interior" loading="lazy">
+          </div>
+          <div class="about-badge-card">
+            <div class="badge-num">25+</div>
+            <div class="badge-lbl">Years of Medical Excellence & Clinical Research</div>
+          </div>
+        </div>
+        <div class="about-text-content">
+          <span class="section-tag">WHO WE ARE</span>
+          <h2 class="section-title">Providing World-Class Healthcare With A Human Touch</h2>
+          <p class="section-desc">
+            PulseCare Hospital is a flagship multispecialty tertiary care institution recognized internationally for clinical excellence, innovative medical technologies, and pioneering patient-centric holistic healing.
+          </p>
+          <div class="features-list">
+            <div class="feature-item">
+              <div class="feat-icon"><i class="fa-solid fa-microscope"></i></div>
+              <div>
+                <h4>Advanced Diagnostic Labs</h4>
+                <p>Equipped with high-precision 3T MRI, 128-slice CT, and molecular pathology labs.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feat-icon"><i class="fa-solid fa-ambulance"></i></div>
+              <div>
+                <h4>Immediate Response Ambulances</h4>
+                <p>GPS-synced cardiac life-support mobile ICUs with rapid response time under 10 minutes.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feat-icon"><i class="fa-solid fa-laptop-medical"></i></div>
+              <div>
+                <h4>Paperless Digital Care</h4>
+                <p>Integrated HMS records, e-prescriptions, and seamless tele-consultations.</p>
+              </div>
+            </div>
+          </div>
+          <div class="about-cta">
+            <button class="btn btn-primary" onclick="app.showDashboard()">
+              Explore Our Live Hospital System
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Medical Departments Section -->
+    <section class="departments-section" id="departments">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">SPECIALIZED CENTERS</span>
+          <h2 class="section-title">Centers of Clinical Excellence</h2>
+          <p class="section-desc">Multidisciplinary departments providing advanced therapeutic and surgical solutions.</p>
+        </div>
+
+        <div class="departments-grid">
+          <!-- Cardiology -->
+          <div class="dept-card" onclick="app.filterDoctorsByDept('Cardiology')">
+            <div class="dept-icon-box bg-rose-light">
+              <i class="fa-solid fa-heart-pulse text-rose"></i>
+            </div>
+            <h3>Cardiology & Heart Care</h3>
+            <p>Comprehensive coronary angiographies, bypass surgeries, pacemaker implantation, and preventative cardiac care.</p>
+            <ul class="dept-features">
+              <li><i class="fa-solid fa-check"></i> 24/7 Primary Angioplasty</li>
+              <li><i class="fa-solid fa-check"></i> Advanced Cardiac ICU</li>
+            </ul>
+            <div class="dept-card-footer">
+              <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <!-- Neurology -->
+          <div class="dept-card" onclick="app.filterDoctorsByDept('Neurology')">
+            <div class="dept-icon-box bg-blue-light">
+              <i class="fa-solid fa-brain text-blue"></i>
+            </div>
+            <h3>Neurology & Neurosurgery</h3>
+            <p>Specialized therapy for stroke, neurotrauma, epilepsy, Parkinson's disease, and minimally invasive spine surgeries.</p>
+            <ul class="dept-features">
+              <li><i class="fa-solid fa-check"></i> Comprehensive Stroke Center</li>
+              <li><i class="fa-solid fa-check"></i> Neuro-Electrophysiology</li>
+            </ul>
+            <div class="dept-card-footer">
+              <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <!-- Orthopedics -->
+          <div class="dept-card" onclick="app.filterDoctorsByDept('Orthopedics')">
+            <div class="dept-icon-box bg-teal-light">
+              <i class="fa-solid fa-bone text-teal"></i>
+            </div>
+            <h3>Orthopedics & Joint Care</h3>
+            <p>Robotic-assisted joint replacement, sports injury rehab, arthroscopy, and complex fracture trauma management.</p>
+            <ul class="dept-features">
+              <li><i class="fa-solid fa-check"></i> Robotic Knee & Hip Surgery</li>
+              <li><i class="fa-solid fa-check"></i> Dedicated Physiotherapy Wing</li>
+            </ul>
+            <div class="dept-card-footer">
+              <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <!-- Pediatrics -->
+          <div class="dept-card" onclick="app.filterDoctorsByDept('Pediatrics')">
+            <div class="dept-icon-box bg-amber-light">
+              <i class="fa-solid fa-baby text-amber"></i>
+            </div>
+            <h3>Pediatrics & Neonatology</h3>
+            <p>Dedicated child health clinic, Level-III NICU, developmental pediatric therapy, and universal childhood immunizations.</p>
+            <ul class="dept-features">
+              <li><i class="fa-solid fa-check"></i> Level III Neonatal ICU</li>
+              <li><i class="fa-solid fa-check"></i> Child Friendly Environment</li>
+            </ul>
+            <div class="dept-card-footer">
+              <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <!-- Dermatology -->
+          <div class="dept-card" onclick="app.filterDoctorsByDept('Dermatology')">
+            <div class="dept-icon-box bg-purple-light">
+              <i class="fa-solid fa-hand-dots text-purple"></i>
+            </div>
+            <h3>Dermatology & Cosmetology</h3>
+            <p>Advanced clinical skin care, laser treatments, allergy diagnostics, aesthetic dermatology, and reconstructive therapy.</p>
+            <ul class="dept-features">
+              <li><i class="fa-solid fa-check"></i> US-FDA Laser Technologies</li>
+              <li><i class="fa-solid fa-check"></i> Targeted Skin Biopsies</li>
+            </ul>
+            <div class="dept-card-footer">
+              <span class="dept-link">View Doctors <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <!-- Emergency Care -->
+          <div class="dept-card highlight-card" onclick="app.filterDoctorsByDept('Emergency Care')">
+            <div class="dept-icon-box bg-danger-light">
+              <i class="fa-solid fa-truck-medical text-danger"></i>
+            </div>
+            <h3>Emergency & Critical Care</h3>
+            <p>24x7 Level-1 trauma response team, rapid triage, hyperacute resuscitation, and dedicated emergency operating theaters.</p>
+            <ul class="dept-features">
+              <li><i class="fa-solid fa-check"></i> Zero-Wait Emergency Triage</li>
+              <li><i class="fa-solid fa-check"></i> High-End Life Support</li>
+            </ul>
+            <div class="dept-card-footer">
+              <span class="dept-link">Contact Emergency <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section bg-subtle" id="services">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">COMPREHENSIVE SERVICES</span>
+          <h2 class="section-title">Healthcare Solutions Designed Around You</h2>
+          <p class="section-desc">From initial outpatient consultations to high-dependency postoperative recovery.</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-box">
+            <div class="srv-icon"><i class="fa-solid fa-user-nurse"></i></div>
+            <h4>24/7 Outpatient & Inpatient</h4>
+            <p>Spacious deluxe suites, general wards, and dedicated nursing supervision ensuring speedy rehabilitation.</p>
+          </div>
+          <div class="service-box">
+            <div class="srv-icon"><i class="fa-solid fa-pills"></i></div>
+            <h4>Full-Service 24/7 Pharmacy</h4>
+            <p>In-house computerized pharmacy maintaining authentic, temperature-controlled medicines with doorstep delivery.</p>
+          </div>
+          <div class="service-box">
+            <div class="srv-icon"><i class="fa-solid fa-vial-virus"></i></div>
+            <h4>Accredited Pathology & Lab</h4>
+            <p>Same-day turnaround for clinical pathology, blood biochemistry, microbiology, and biomarker tests.</p>
+          </div>
+          <div class="service-box">
+            <div class="srv-icon"><i class="fa-solid fa-x-ray"></i></div>
+            <h4>Diagnostic Imaging</h4>
+            <p>Digital X-Ray, 4D Ultrasound, Color Doppler, 3T MRI, and high-resolution computed tomography scans.</p>
+          </div>
+          <div class="service-box">
+            <div class="srv-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+            <h4>Cashless Insurance TPA Desk</h4>
+            <p>Empaneled with over 40+ leading health insurance providers with hassle-free claim pre-authorization.</p>
+          </div>
+          <div class="service-box">
+            <div class="srv-icon"><i class="fa-solid fa-video"></i></div>
+            <h4>Tele-Health Video Consult</h4>
+            <p>Encrypted teleconsultations for remote follow-ups and specialist second opinions worldwide.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Doctors Showcase Section -->
+    <section class="doctors-section" id="doctors">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-tag">OUR MEDICAL SPECIALISTS</span>
+            <h2 class="section-title">Meet Our Senior Consultants</h2>
+            <p class="section-desc">Decades of international experience, academic distinction, and dedicated compassionate care.</p>
+          </div>
+          <!-- Department Filter Pills -->
+          <div class="dept-filters" id="doctor-dept-filters">
+            <button class="filter-pill active" onclick="app.filterPortalDoctors('All')">All Specialists</button>
+            <button class="filter-pill" onclick="app.filterPortalDoctors('Cardiology')">Cardiology</button>
+            <button class="filter-pill" onclick="app.filterPortalDoctors('Neurology')">Neurology</button>
+            <button class="filter-pill" onclick="app.filterPortalDoctors('Orthopedics')">Orthopedics</button>
+            <button class="filter-pill" onclick="app.filterPortalDoctors('Pediatrics')">Pediatrics</button>
+            <button class="filter-pill" onclick="app.filterPortalDoctors('Dermatology')">Dermatology</button>
+          </div>
+        </div>
+
+        <div class="doctors-cards-grid" id="portal-doctors-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Patient Testimonials Section -->
+    <section class="testimonials-section bg-subtle" id="testimonials">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">PATIENT STORIES</span>
+          <h2 class="section-title">Voices of Healing & Trust</h2>
+          <p class="section-desc">Real stories from patients and families who experienced healing at PulseCare.</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testi-text">
+              "The emergency response at PulseCare saved my father's life during an acute cardiac arrest. Dr. Sarah Jenkins and her cath-lab team were extraordinary. Forever grateful!"
+            </p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80" alt="Patient family" class="avatar-sm">
+              <div>
+                <h5>Emily Richardson</h5>
+                <span>Cardiology Patient Family</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testi-text">
+              "Underwent bilateral robotic knee replacement under Dr. Marcus Patel. Within two weeks I was walking pain-free. The digitized records and nursing staff were outstanding."
+            </p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Patient" class="avatar-sm">
+              <div>
+                <h5>Robert Harrison</h5>
+                <span>Orthopedic Surgery Patient</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testi-text">
+              "The pediatric wing is designed so thoughtfully! My 4-year-old daughter was never scared during her treatment. Dr. Lisa Wong was gentle, patient, and highly knowledgeable."
+            </p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" alt="Patient" class="avatar-sm">
+              <div>
+                <h5>Sophia Martinez</h5>
+                <span>Parent of Pediatric Patient</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Emergency Banner -->
+    <section class="emergency-cta-section" id="contact">
+      <div class="container cta-box">
+        <div class="cta-content">
+          <div class="emergency-pulsing-badge">
+            <span class="pulse-dot"></span> Emergency Services 24/7
+          </div>
+          <h2>Need Urgent Medical Assistance?</h2>
+          <p>Our trauma center and rapid cardiac response units are always operational with zero waiting time.</p>
+          <div class="cta-contacts">
+            <a href="tel:+18004372273" class="btn btn-danger-pill btn-lg">
+              <i class="fa-solid fa-phone-flip"></i> Call Ambulance: (800) 437-CARE
+            </a>
+            <button class="btn btn-white-pill btn-lg" onclick="app.openAppointmentModal()">
+              <i class="fa-solid fa-calendar-check"></i> Book Non-Urgent Visit
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Public Footer -->
+    <footer class="public-footer">
+      <div class="container footer-grid">
+        <div class="footer-col brand-col">
+          <div class="logo-text">
+            <div class="logo-flex">
+              <div class="logo-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+              <span class="logo-title text-white">PulseCare</span>
+            </div>
+            <p class="footer-bio">
+              Setting international standards in tertiary clinical care, medical research, and compassionate healing for our community.
+            </p>
+            <div class="social-links">
+              <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Clinical Specialties</h4>
+          <ul class="footer-links">
+            <li><a href="#departments">Cardiology & Cardiac Surgery</a></li>
+            <li><a href="#departments">Neurology & Neurosurgery</a></li>
+            <li><a href="#departments">Orthopedic & Joint Care</a></li>
+            <li><a href="#departments">Pediatrics & Neonatology</a></li>
+            <li><a href="#departments">Dermatology & Cosmetology</a></li>
+            <li><a href="#departments">Emergency & Critical Trauma</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Patient Services</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="app.openAppointmentModal(); return false;">Book Doctor Appointment</a></li>
+            <li><a href="#" onclick="app.showDashboard(); app.switchTab('billing'); return false;">Online Bill & Invoicing</a></li>
+            <li><a href="#services">Diagnostics & Imaging Tests</a></li>
+            <li><a href="#services">24/7 In-House Pharmacy</a></li>
+            <li><a href="#testimonials">Patient Testimonials</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Hospital Administration</h4>
+          <p><i class="fa-solid fa-location-dot"></i> 742 Evergreen Healthcare Ave, Metro City, NY 10001</p>
+          <p><i class="fa-solid fa-envelope"></i> helpdesk@pulsecarehospital.org</p>
+          <p><i class="fa-solid fa-phone"></i> Direct Admin: +1 (555) 234-5678</p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-lock"></i> Secured Frontend Prototype
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container footer-bottom-flex">
+          <p>&copy; 2026 PulseCare Hospital Management System. Designed for modern healthcare.</p>
+          <p class="security-note"><i class="fa-solid fa-info-circle"></i> Frontend Demonstration Prototype. Non-sensitive sample storage.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+
+  <!-- ==============================================
+       VIEW 2: ADVANCED HMS ADMIN & CLINICAL DASHBOARD
+       ============================================== -->
+  <section id="dashboard-view" class="view-section dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="dashboard-sidebar" id="dashboard-sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="brand-logo" onclick="app.showView('portal-view')">
+          <div class="logo-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">PulseCare</span>
+            <span class="logo-badge">HMS Core</span>
+          </div>
+        </a>
+        <button class="btn btn-icon sidebar-close-btn" id="sidebar-close" onclick="app.toggleSidebar()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Current User Profile Chip -->
+      <div class="user-profile-badge">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Admin" class="avatar-md">
+        <div class="user-badge-info">
+          <h4 id="current-user-name">Dr. Alena Vance</h4>
+          <span class="badge-role" id="current-user-role">Super Admin</span>
+        </div>
+        <button class="btn-role-switch" onclick="app.openAuthModal()" title="Switch Role / Login">
+          <i class="fa-solid fa-right-left"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <div class="sidebar-menu-wrapper">
+        <span class="menu-label">CLINICAL MANAGEMENT</span>
+        <ul class="sidebar-menu">
+          <li class="menu-item active" data-tab="overview" onclick="app.switchTab('overview')">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard Overview</span>
+          </li>
+          <li class="menu-item" data-tab="patients" onclick="app.switchTab('patients')">
+            <i class="fa-solid fa-bed-pulse"></i>
+            <span>Patient Records</span>
+            <span class="pill-count" id="badge-patient-count">0</span>
+          </li>
+          <li class="menu-item" data-tab="doctors" onclick="app.switchTab('doctors')">
+            <i class="fa-solid fa-user-doctor"></i>
+            <span>Doctor Staff</span>
+            <span class="pill-count" id="badge-doctor-count">0</span>
+          </li>
+          <li class="menu-item" data-tab="appointments" onclick="app.switchTab('appointments')">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Appointments</span>
+            <span class="pill-count highlight" id="badge-appt-count">0</span>
+          </li>
+        </ul>
+
+        <span class="menu-label">HOSPITAL OPERATIONS</span>
+        <ul class="sidebar-menu">
+          <li class="menu-item" data-tab="departments" onclick="app.switchTab('departments')">
+            <i class="fa-solid fa-building-user"></i>
+            <span>Departments</span>
+          </li>
+          <li class="menu-item" data-tab="billing" onclick="app.switchTab('billing')">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>Billing & Invoices</span>
+          </li>
+          <li class="menu-item" data-tab="reports" onclick="app.switchTab('reports')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Analytics & Reports</span>
+          </li>
+          <li class="menu-item" data-tab="settings" onclick="app.switchTab('settings')">
+            <i class="fa-solid fa-sliders"></i>
+            <span>System Settings</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-outline btn-block" onclick="app.showView('portal-view')">
+          <i class="fa-solid fa-globe"></i> <span>Return to Portal</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Dashboard Area -->
+    <div class="dashboard-main-content">
+      <!-- Top Dashboard Header Bar -->
+      <header class="dash-top-bar">
+        <div class="dash-top-left">
+          <button class="btn btn-icon sidebar-hamburger" id="dash-hamburger" onclick="app.toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="dash-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="global-search-input" placeholder="Search patients, doctors, appointments..." oninput="app.handleGlobalSearch(this.value)">
+          </div>
+        </div>
+
+        <div class="dash-top-right">
+          <!-- Notification Bell Dropdown -->
+          <div class="relative">
+            <button class="btn btn-icon notification-bell" id="notif-btn" onclick="app.toggleNotifDropdown()">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notif-dot"></span>
+            </button>
+            <div class="dropdown-menu notif-dropdown" id="notif-dropdown">
+              <div class="dropdown-header">
+                <h4>System Notifications</h4>
+                <button class="text-btn" onclick="app.clearNotifications()">Clear All</button>
+              </div>
+              <ul class="notif-list" id="notif-list">
+                <li class="notif-item unread">
+                  <div class="notif-icon bg-blue-light text-blue"><i class="fa-solid fa-calendar-check"></i></div>
+                  <div class="notif-info">
+                    <p><strong>New Appointment:</strong> Eleanor Vance with Dr. Sarah Jenkins</p>
+                    <span>10 minutes ago</span>
+                  </div>
+                </li>
+                <li class="notif-item unread">
+                  <div class="notif-icon bg-teal-light text-teal"><i class="fa-solid fa-receipt"></i></div>
+                  <div class="notif-info">
+                    <p><strong>Invoice Paid:</strong> Inv #INV-8821 for $320.00</p>
+                    <span>42 minutes ago</span>
+                  </div>
+                </li>
+                <li class="notif-item">
+                  <div class="notif-icon bg-amber-light text-amber"><i class="fa-solid fa-bed"></i></div>
+                  <div class="notif-info">
+                    <p><strong>Bed Alert:</strong> ICU Ward at 92% occupancy</p>
+                    <span>2 hours ago</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Quick Action Button -->
+          <button class="btn btn-primary" onclick="app.openAppointmentModal()">
+            <i class="fa-solid fa-plus"></i> <span class="hide-sm">New Appointment</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard View Containers -->
+      <div class="dash-view-container">
+
+        <!-- ==============================
+             TAB 1: DASHBOARD OVERVIEW
+             ============================== -->
+        <div id="tab-overview" class="dash-tab-pane active">
+          <div class="dash-banner-welcome">
+            <div class="welcome-text">
+              <h2>Good Morning, <span id="welcome-user-name">Dr. Alena Vance</span> 👋</h2>
+              <p>Hospital Clinical Overview: Current OPD traffic is up 14% with 42 beds remaining available.</p>
+            </div>
+            <div class="welcome-actions">
+              <button class="btn btn-white" onclick="app.openPatientModal()">
+                <i class="fa-solid fa-user-plus"></i> Admit Patient
+              </button>
+              <button class="btn btn-primary" onclick="app.openAppointmentModal()">
+                <i class="fa-regular fa-calendar-plus"></i> Add Appointment
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Main Metric Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-icon bg-blue-light text-blue">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-title">Total Active Patients</span>
+                <h3 class="metric-value" id="stat-total-patients">0</h3>
+                <span class="metric-trend text-success"><i class="fa-solid fa-arrow-trend-up"></i> +12% this month</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon bg-teal-light text-teal">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-title">Consulting Doctors</span>
+                <h3 class="metric-value" id="stat-total-doctors">0</h3>
+                <span class="metric-trend text-info"><i class="fa-solid fa-circle-check"></i> All active on duty</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon bg-purple-light text-purple">
+                <i class="fa-solid fa-calendar-check"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-title">Total Appointments</span>
+                <h3 class="metric-value" id="stat-total-appointments">0</h3>
+                <span class="metric-trend text-success"><i class="fa-solid fa-arrow-trend-up"></i> 8 booked today</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon bg-amber-light text-amber">
+                <i class="fa-solid fa-bed"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-title">Available Hospital Beds</span>
+                <h3 class="metric-value" id="stat-available-beds">48</h3>
+                <span class="metric-trend text-warning"><i class="fa-solid fa-chart-pie"></i> 82% Ward Occupancy</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts and Trends Section -->
+          <div class="dashboard-analytics-row">
+            <!-- Patient Admission & OPD Chart (CSS-Grid Bar Graph) -->
+            <div class="card-box chart-box">
+              <div class="card-box-header">
+                <div>
+                  <h3 class="box-title">Patient Admissions & OPD Flow</h3>
+                  <span class="box-subtitle">Weekly patient volume distribution (Mon - Sun)</span>
+                </div>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-dot bg-blue"></span> Outpatients</span>
+                  <span class="legend-item"><span class="legend-dot bg-teal"></span> Inpatients</span>
+                </div>
+              </div>
+              <!-- Simulated Interactive Graphic Bars -->
+              <div class="custom-chart-wrapper">
+                <div class="bar-chart-container">
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 65%;" title="Mon OPD: 65"></div>
+                      <div class="bar bar-teal" style="height: 40%;" title="Mon IPD: 40"></div>
+                    </div>
+                    <span class="col-day">Mon</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 82%;" title="Tue OPD: 82"></div>
+                      <div class="bar bar-teal" style="height: 55%;" title="Tue IPD: 55"></div>
+                    </div>
+                    <span class="col-day">Tue</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 75%;" title="Wed OPD: 75"></div>
+                      <div class="bar bar-teal" style="height: 48%;" title="Wed IPD: 48"></div>
+                    </div>
+                    <span class="col-day">Wed</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 90%;" title="Thu OPD: 90"></div>
+                      <div class="bar bar-teal" style="height: 62%;" title="Thu IPD: 62"></div>
+                    </div>
+                    <span class="col-day">Thu</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 85%;" title="Fri OPD: 85"></div>
+                      <div class="bar bar-teal" style="height: 58%;" title="Fri IPD: 58"></div>
+                    </div>
+                    <span class="col-day">Fri</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 60%;" title="Sat OPD: 60"></div>
+                      <div class="bar bar-teal" style="height: 35%;" title="Sat IPD: 35"></div>
+                    </div>
+                    <span class="col-day">Sat</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="bar-pair">
+                      <div class="bar bar-blue" style="height: 45%;" title="Sun OPD: 45"></div>
+                      <div class="bar bar-teal" style="height: 25%;" title="Sun IPD: 25"></div>
+                    </div>
+                    <span class="col-day">Sun</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Departmental Workload Distribution -->
+            <div class="card-box dept-distribution-box">
+              <div class="card-box-header">
+                <div>
+                  <h3 class="box-title">Department Workload</h3>
+                  <span class="box-subtitle">Consultation volume by specialty</span>
+                </div>
+              </div>
+              <div class="workload-list">
+                <div class="workload-item">
+                  <div class="workload-header">
+                    <span>Cardiology</span>
+                    <strong>34%</strong>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill bg-rose" style="width: 34%;"></div></div>
+                </div>
+                <div class="workload-item">
+                  <div class="workload-header">
+                    <span>Orthopedics</span>
+                    <strong>26%</strong>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill bg-teal" style="width: 26%;"></div></div>
+                </div>
+                <div class="workload-item">
+                  <div class="workload-header">
+                    <span>Neurology</span>
+                    <strong>18%</strong>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill bg-blue" style="width: 18%;"></div></div>
+                </div>
+                <div class="workload-item">
+                  <div class="workload-header">
+                    <span>Pediatrics</span>
+                    <strong>14%</strong>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill bg-amber" style="width: 14%;"></div></div>
+                </div>
+                <div class="workload-item">
+                  <div class="workload-header">
+                    <span>Emergency & Other</span>
+                    <strong>8%</strong>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill bg-purple" style="width: 8%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Recent Appointments & Quick Patient Activity -->
+          <div class="dashboard-tables-row">
+            <div class="card-box recent-appts-box">
+              <div class="card-box-header">
+                <h3 class="box-title">Recent Clinical Appointments</h3>
+                <button class="btn btn-sm btn-outline" onclick="app.switchTab('appointments')">View All</button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Consultant</th>
+                      <th>Department</th>
+                      <th>Date / Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overview-recent-appts-tbody">
+                    <!-- Populated dynamically via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Available Doctors on Call -->
+            <div class="card-box doctors-on-call-box">
+              <div class="card-box-header">
+                <h3 class="box-title">Doctors On Call</h3>
+                <button class="btn btn-sm btn-outline" onclick="app.switchTab('doctors')">View Team</button>
+              </div>
+              <div class="on-call-list" id="overview-on-call-list">
+                <!-- Populated dynamically via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 2: PATIENT MANAGEMENT
+             ============================== -->
+        <div id="tab-patients" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Patient Management System</h2>
+              <p class="pane-sub">Register, update, and manage inpatient and outpatient electronic clinical records.</p>
+            </div>
+            <div class="pane-header-actions">
+              <button class="btn btn-outline" onclick="app.exportPatientsCSV()">
+                <i class="fa-solid fa-file-csv"></i> Export CSV
+              </button>
+              <button class="btn btn-primary" onclick="app.openPatientModal()">
+                <i class="fa-solid fa-user-plus"></i> Admit New Patient
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter & Search Toolbar -->
+          <div class="filter-toolbar card-box">
+            <div class="toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="patient-search-input" placeholder="Search by name, ID (e.g. PAT-101), or phone..." oninput="app.renderPatientsTable()">
+            </div>
+            <div class="toolbar-filters">
+              <select id="patient-gender-filter" class="form-control-sm" onchange="app.renderPatientsTable()">
+                <option value="All">All Genders</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <select id="patient-blood-filter" class="form-control-sm" onchange="app.renderPatientsTable()">
+                <option value="All">All Blood Groups</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Patients Table -->
+          <div class="card-box table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="patients-data-table">
+                <thead>
+                  <tr>
+                    <th>Patient ID</th>
+                    <th>Full Name</th>
+                    <th>Age / Gender</th>
+                    <th>Contact Phone</th>
+                    <th>Blood Type</th>
+                    <th>Primary Diagnosis</th>
+                    <th>Assigned Ward</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="patients-table-body">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+            <div id="patients-empty-state" class="empty-state-box hidden">
+              <i class="fa-solid fa-hospital-user"></i>
+              <h4>No Patient Records Found</h4>
+              <p>Try modifying your search filter or click "Admit New Patient" to create one.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 3: DOCTOR MANAGEMENT
+             ============================== -->
+        <div id="tab-doctors" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Medical Staff & Doctor Management</h2>
+              <p class="pane-sub">Manage consulting doctors, hospital credentials, specialties, and OPD duty schedules.</p>
+            </div>
+            <div class="pane-header-actions">
+              <button class="btn btn-primary" onclick="app.openDoctorModal()">
+                <i class="fa-solid fa-user-doctor"></i> Add Doctor Profile
+              </button>
+            </div>
+          </div>
+
+          <!-- Doctor Filter Toolbar -->
+          <div class="filter-toolbar card-box">
+            <div class="toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="doctor-search-input" placeholder="Search doctor by name, specialty, or email..." oninput="app.renderDoctorsGrid()">
+            </div>
+            <div class="toolbar-filters">
+              <select id="doctor-dept-filter" class="form-control-sm" onchange="app.renderDoctorsGrid()">
+                <option value="All">All Departments</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency Care">Emergency Care</option>
+              </select>
+              <select id="doctor-status-filter" class="form-control-sm" onchange="app.renderDoctorsGrid()">
+                <option value="All">All Availability</option>
+                <option value="Available">Available Now</option>
+                <option value="In Surgery">In Surgery</option>
+                <option value="On Leave">On Leave</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Doctors Grid Cards in Admin Dashboard -->
+          <div class="admin-doctors-grid" id="admin-doctors-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 4: APPOINTMENT MANAGEMENT
+             ============================== -->
+        <div id="tab-appointments" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Appointment Scheduling & OPD Log</h2>
+              <p class="pane-sub">Monitor appointment statuses, schedule consultations, reschedule, and handle confirmations.</p>
+            </div>
+            <div class="pane-header-actions">
+              <button class="btn btn-primary" onclick="app.openAppointmentModal()">
+                <i class="fa-solid fa-calendar-plus"></i> Book New Appointment
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Toolbar -->
+          <div class="filter-toolbar card-box">
+            <div class="toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="appt-search-input" placeholder="Search by patient, doctor, or appt ID..." oninput="app.renderAppointmentsTable()">
+            </div>
+            <div class="toolbar-filters">
+              <select id="appt-status-filter" class="form-control-sm" onchange="app.renderAppointmentsTable()">
+                <option value="All">All Statuses</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Rescheduled">Rescheduled</option>
+              </select>
+              <select id="appt-dept-filter" class="form-control-sm" onchange="app.renderAppointmentsTable()">
+                <option value="All">All Departments</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency Care">Emergency Care</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Appointments Data Table -->
+          <div class="card-box table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="appointments-data-table">
+                <thead>
+                  <tr>
+                    <th>Appt ID</th>
+                    <th>Patient Name</th>
+                    <th>Doctor</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="appointments-table-body">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+            <div id="appointments-empty-state" class="empty-state-box hidden">
+              <i class="fa-regular fa-calendar-xmark"></i>
+              <h4>No Appointments Found</h4>
+              <p>No appointment records match the current filter criteria.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 5: DEPARTMENTS & WARDS
+             ============================== -->
+        <div id="tab-departments" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Hospital Departments & Clinical Units</h2>
+              <p class="pane-sub">Operational status, head of department, bed occupancy, and unit capacity.</p>
+            </div>
+          </div>
+
+          <div class="dept-overview-grid" id="admin-dept-overview-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 6: BILLING & INVOICING
+             ============================== -->
+        <div id="tab-billing" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Billing & Patient Invoices</h2>
+              <p class="pane-sub">Generate itemized medical invoices, track consultation charges, and print official bills.</p>
+            </div>
+            <div class="pane-header-actions">
+              <button class="btn btn-primary" onclick="app.openBillingModal()">
+                <i class="fa-solid fa-file-invoice-dollar"></i> Generate New Invoice
+              </button>
+            </div>
+          </div>
+
+          <!-- Invoices Table -->
+          <div class="card-box table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="invoices-table">
+                <thead>
+                  <tr>
+                    <th>Invoice ID</th>
+                    <th>Patient Name</th>
+                    <th>Department</th>
+                    <th>Date Issued</th>
+                    <th>Total Amount</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="invoices-table-body">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 7: ANALYTICS & REPORTS
+             ============================== -->
+        <div id="tab-reports" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Clinical Analytics & Operations Reports</h2>
+              <p class="pane-sub">KPI summaries, revenue indicators, patient bed turnover rates, and clinical metrics.</p>
+            </div>
+            <div class="pane-header-actions">
+              <button class="btn btn-outline" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Print Executive Summary
+              </button>
+            </div>
+          </div>
+
+          <div class="reports-summary-grid">
+            <div class="report-kpi-card">
+              <span class="kpi-title">Average Bed Occupancy Rate</span>
+              <h3 class="kpi-value text-blue">84.2%</h3>
+              <p class="kpi-note">Normal optimal hospital threshold (80-85%)</p>
+            </div>
+            <div class="report-kpi-card">
+              <span class="kpi-title">Average Consultation Wait Time</span>
+              <h3 class="kpi-value text-teal">14 Mins</h3>
+              <p class="kpi-note">Reduced by 6 mins through digital triage</p>
+            </div>
+            <div class="report-kpi-card">
+              <span class="kpi-title">Monthly Total Billing Volume</span>
+              <h3 class="kpi-value text-purple">$128,450</h3>
+              <p class="kpi-note">94% insurance and direct claim clearance</p>
+            </div>
+            <div class="report-kpi-card">
+              <span class="kpi-title">Emergency Response Index</span>
+              <h3 class="kpi-value text-rose">7.8 Mins</h3>
+              <p class="kpi-note">Ambulance dispatch to arrival average</p>
+            </div>
+          </div>
+
+          <!-- Visual Breakdown -->
+          <div class="card-box mt-4">
+            <div class="card-box-header">
+              <h3 class="box-title">Key Clinical Indicators & Performance</h3>
+            </div>
+            <div class="report-indicators-list">
+              <div class="indicator-item">
+                <div class="ind-head">
+                  <span>Surgical Success Rate (Cardiac & Neuro)</span>
+                  <strong>99.1%</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill bg-teal" style="width: 99.1%;"></div></div>
+              </div>
+              <div class="indicator-item">
+                <div class="ind-head">
+                  <span>Patient Discharge Documentation Compliance</span>
+                  <strong>97.5%</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill bg-blue" style="width: 97.5%;"></div></div>
+              </div>
+              <div class="indicator-item">
+                <div class="ind-head">
+                  <span>Hospital Acquired Infection Rate (HAI)</span>
+                  <strong>0.04% (Target &lt; 0.5%)</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill bg-purple" style="width: 4%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ==============================
+             TAB 8: SYSTEM SETTINGS
+             ============================== -->
+        <div id="tab-settings" class="dash-tab-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">System & Security Settings</h2>
+              <p class="pane-sub">Configure hospital preferences, local data synchronization, and system security parameters.</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <div class="card-box">
+              <div class="card-box-header">
+                <h3 class="box-title"><i class="fa-solid fa-hospital text-blue"></i> Hospital Profile Settings</h3>
+              </div>
+              <div class="form-group">
+                <label>Institution Legal Name</label>
+                <input type="text" class="form-control" value="PulseCare Multi-Specialty Hospital" readonly>
+              </div>
+              <div class="form-group">
+                <label>Accreditation Code</label>
+                <input type="text" class="form-control" value="NABH-MED-2026-9921 / JCI-GOLD" readonly>
+              </div>
+              <div class="form-group">
+                <label>Emergency Dispatch Helpline</label>
+                <input type="text" class="form-control" value="+1 (800) 437-CARE" readonly>
+              </div>
+            </div>
+
+            <div class="card-box">
+              <div class="card-box-header">
+                <h3 class="box-title"><i class="fa-solid fa-database text-teal"></i> Demo Storage & Reset</h3>
+              </div>
+              <p class="text-muted">
+                This hospital management system operates as a responsive frontend demonstration. Data is persisted locally in your browser's demo storage.
+              </p>
+              <div class="alert-box-info">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span><strong>Security Note:</strong> For real clinical deployment, PulseCare requires an enterprise backend with HIPAA-compliant encryption, PostgreSQL DB, role-based OAuth2 authentication, and audit logs.</span>
+              </div>
+              <div class="settings-btn-row">
+                <button class="btn btn-outline-danger" onclick="app.resetDemoData()">
+                  <i class="fa-solid fa-rotate-left"></i> Reset Demo Data to Default
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- end dash-view-container -->
+    </div> <!-- end dashboard-main-content -->
+  </section>
+
+
+  <!-- ==============================================
+       MODALS: PATIENT, DOCTOR, APPOINTMENT, BILLING, AUTH, INVOICE PRINT
+       ============================================== -->
+
+  <!-- Modal 1: Patient Add/Edit Modal -->
+  <div class="modal-backdrop" id="patient-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="patient-modal-title"><i class="fa-solid fa-user-plus text-blue"></i> Register New Patient</h3>
+        <button class="modal-close" onclick="app.closeModal('patient-modal')">&times;</button>
+      </div>
+      <form id="patient-form" onsubmit="app.handlePatientSubmit(event)">
+        <input type="hidden" id="patient-edit-id">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Patient Name <span class="required">*</span></label>
+              <input type="text" id="p-name" class="form-control" required placeholder="e.g. Liam Henderson">
+            </div>
+            <div class="form-group">
+              <label>Contact Phone <span class="required">*</span></label>
+              <input type="tel" id="p-phone" class="form-control" required placeholder="e.g. +1 (555) 432-1098">
+            </div>
+          </div>
+
+          <div class="form-row three-cols">
+            <div class="form-group">
+              <label>Age <span class="required">*</span></label>
+              <input type="number" id="p-age" class="form-control" min="1" max="120" required placeholder="38">
+            </div>
+            <div class="form-group">
+              <label>Gender <span class="required">*</span></label>
+              <select id="p-gender" class="form-control" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Blood Group <span class="required">*</span></label>
+              <select id="p-blood" class="form-control" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Primary Diagnosis / Reason <span class="required">*</span></label>
+              <input type="text" id="p-diagnosis" class="form-control" required placeholder="e.g. Hypertension / Chest Discomfort">
+            </div>
+            <div class="form-group">
+              <label>Assigned Ward / Room</label>
+              <input type="text" id="p-ward" class="form-control" placeholder="e.g. Cardiology Ward, Bed 302">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Emergency Contact & Medical Notes</label>
+            <textarea id="p-notes" class="form-control" rows="2" placeholder="Allergies (e.g. Penicillin), next of kin details..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('patient-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="patient-submit-btn">Save Patient Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal 2: Doctor Add/Edit Modal -->
+  <div class="modal-backdrop" id="doctor-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="doctor-modal-title"><i class="fa-solid fa-user-doctor text-teal"></i> Add Doctor Profile</h3>
+        <button class="modal-close" onclick="app.closeModal('doctor-modal')">&times;</button>
+      </div>
+      <form id="doctor-form" onsubmit="app.handleDoctorSubmit(event)">
+        <input type="hidden" id="doctor-edit-id">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Doctor Full Name & Title <span class="required">*</span></label>
+              <input type="text" id="doc-name" class="form-control" required placeholder="e.g. Dr. Sarah Jenkins, MD">
+            </div>
+            <div class="form-group">
+              <label>Department / Specialty <span class="required">*</span></label>
+              <select id="doc-dept" class="form-control" required>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency Care">Emergency Care</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row three-cols">
+            <div class="form-group">
+              <label>Experience (Years) <span class="required">*</span></label>
+              <input type="number" id="doc-exp" class="form-control" min="1" max="50" required placeholder="14">
+            </div>
+            <div class="form-group">
+              <label>Consultation Fee ($) <span class="required">*</span></label>
+              <input type="number" id="doc-fee" class="form-control" min="20" max="1000" required placeholder="120">
+            </div>
+            <div class="form-group">
+              <label>Current Status <span class="required">*</span></label>
+              <select id="doc-status" class="form-control" required>
+                <option value="Available">Available</option>
+                <option value="In Surgery">In Surgery</option>
+                <option value="On Leave">On Leave</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>OPD Availability Schedule <span class="required">*</span></label>
+              <input type="text" id="doc-schedule" class="form-control" required placeholder="e.g. Mon - Fri (09:00 AM - 03:00 PM)">
+            </div>
+            <div class="form-group">
+              <label>Contact Email <span class="required">*</span></label>
+              <input type="email" id="doc-email" class="form-control" required placeholder="s.jenkins@pulsecarehospital.org">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Profile Photo URL</label>
+            <input type="url" id="doc-photo" class="form-control" placeholder="https://images.unsplash.com/...">
+            <small class="text-muted">Leave empty to use a professional medical default avatar.</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('doctor-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="doctor-submit-btn">Save Doctor Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal 3: Appointment Booking Modal -->
+  <div class="modal-backdrop" id="appointment-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="appt-modal-title"><i class="fa-solid fa-calendar-check text-blue"></i> Schedule Doctor Appointment</h3>
+        <button class="modal-close" onclick="app.closeModal('appointment-modal')">&times;</button>
+      </div>
+      <form id="appointment-form" onsubmit="app.handleAppointmentSubmit(event)">
+        <input type="hidden" id="appt-edit-id">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Patient Full Name <span class="required">*</span></label>
+              <input type="text" id="appt-patient" class="form-control" required placeholder="e.g. Arthur Morgan">
+            </div>
+            <div class="form-group">
+              <label>Patient Phone Number <span class="required">*</span></label>
+              <input type="tel" id="appt-phone" class="form-control" required placeholder="e.g. +1 (555) 887-2190">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Clinical Department <span class="required">*</span></label>
+              <select id="appt-dept" class="form-control" required onchange="app.updateApptDoctorOptions()">
+                <option value="">Choose Department</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency Care">Emergency Care</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Consulting Doctor <span class="required">*</span></label>
+              <select id="appt-doctor" class="form-control" required>
+                <option value="">Select Department First</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preferred Date <span class="required">*</span></label>
+              <input type="date" id="appt-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Preferred Time Slot <span class="required">*</span></label>
+              <select id="appt-time" class="form-control" required>
+                <option value="">Choose Slot</option>
+                <option value="09:00 AM - 09:30 AM">09:00 AM - 09:30 AM</option>
+                <option value="10:00 AM - 10:30 AM">10:00 AM - 10:30 AM</option>
+                <option value="11:30 AM - 12:00 PM">11:30 AM - 12:00 PM</option>
+                <option value="02:00 PM - 02:30 PM">02:00 PM - 02:30 PM</option>
+                <option value="03:30 PM - 04:00 PM">03:30 PM - 04:00 PM</option>
+                <option value="05:00 PM - 05:30 PM">05:00 PM - 05:30 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Symptoms / Consultation Reason</label>
+            <textarea id="appt-reason" class="form-control" rows="2" placeholder="Brief description of primary symptoms or checkup purpose..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('appointment-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="appt-submit-btn">Confirm Appointment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal 4: Billing Generator Modal -->
+  <div class="modal-backdrop" id="billing-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-file-invoice-dollar text-teal"></i> Generate Patient Invoice</h3>
+        <button class="modal-close" onclick="app.closeModal('billing-modal')">&times;</button>
+      </div>
+      <form id="billing-form" onsubmit="app.handleBillingSubmit(event)">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Select Patient <span class="required">*</span></label>
+              <select id="bill-patient-select" class="form-control" required>
+                <!-- Populated via JS with active patients -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Department <span class="required">*</span></label>
+              <select id="bill-dept" class="form-control" required>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency Care">Emergency Care</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row three-cols">
+            <div class="form-group">
+              <label>Consultation Fee ($) <span class="required">*</span></label>
+              <input type="number" id="bill-fee" class="form-control" min="0" required value="100" oninput="app.calculateBillTotal()">
+            </div>
+            <div class="form-group">
+              <label>Lab / Test Charges ($)</label>
+              <input type="number" id="bill-labs" class="form-control" min="0" value="75" oninput="app.calculateBillTotal()">
+            </div>
+            <div class="form-group">
+              <label>Pharmacy / Room Charges ($)</label>
+              <input type="number" id="bill-room" class="form-control" min="0" value="50" oninput="app.calculateBillTotal()">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Payment Status</label>
+              <select id="bill-status" class="form-control">
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+                <option value="Partially Paid">Partially Paid</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Total Calculated Amount ($)</label>
+              <input type="text" id="bill-total-display" class="form-control font-weight-bold" readonly value="$225.00">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('billing-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal 5: Printable Invoice View Modal -->
+  <div class="modal-backdrop" id="invoice-view-modal">
+    <div class="modal-card modal-lg">
+      <div class="modal-header no-print">
+        <h3><i class="fa-solid fa-receipt text-teal"></i> Official Medical Invoice</h3>
+        <div class="header-btns">
+          <button class="btn btn-sm btn-primary" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Invoice
+          </button>
+          <button class="modal-close" onclick="app.closeModal('invoice-view-modal')">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body printable-area" id="printable-invoice-content">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="modal-footer no-print">
+        <button type="button" class="btn btn-outline" onclick="app.closeModal('invoice-view-modal')">Close</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Print / Save as PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal 6: Role Authentication & Switcher Modal -->
+  <div class="modal-backdrop" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-shield-halved text-blue"></i> HMS Role Login & Switcher</h3>
+        <button class="modal-close" onclick="app.closeModal('auth-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">Choose your persona to test different dashboard role views:</p>
+        <div class="role-selector-grid">
+          <div class="role-card active" onclick="app.selectRole('Admin', 'Dr. Alena Vance', this)">
+            <div class="role-icon bg-blue-light text-blue"><i class="fa-solid fa-user-shield"></i></div>
+            <div class="role-info">
+              <h4>Hospital Administrator</h4>
+              <p>Full access to all records, staff, analytics, and billing modules.</p>
+            </div>
+          </div>
+          <div class="role-card" onclick="app.selectRole('Doctor', 'Dr. Sarah Jenkins', this)">
+            <div class="role-icon bg-teal-light text-teal"><i class="fa-solid fa-user-doctor"></i></div>
+            <div class="role-info">
+              <h4>Consulting Doctor</h4>
+              <p>View clinical appointments, patient medical histories, and schedules.</p>
+            </div>
+          </div>
+          <div class="role-card" onclick="app.selectRole('Patient', 'Eleanor Vance', this)">
+            <div class="role-icon bg-purple-light text-purple"><i class="fa-solid fa-hospital-user"></i></div>
+            <div class="role-info">
+              <h4>Patient Portal</h4>
+              <p>Schedule visits, review past invoices, and browse doctors.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-credentials-form mt-4">
+          <div class="form-group">
+            <label>User Identifier</label>
+            <input type="text" id="auth-identifier" class="form-control" value="admin@pulsecarehospital.org">
+          </div>
+          <div class="form-group">
+            <label>Security Credential</label>
+            <input type="password" id="auth-password" class="form-control" value="••••••••••••">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="app.closeModal('auth-modal')">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="app.confirmRoleSwitch()">
+          <i class="fa-solid fa-check"></i> Switch Active Persona
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal 7: Generic Confirmation Modal (Delete confirmation) -->
+  <div class="modal-backdrop" id="confirm-modal">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3 id="confirm-modal-title"><i class="fa-solid fa-triangle-exclamation text-warning"></i> Confirm Action</h3>
+        <button class="modal-close" onclick="app.closeModal('confirm-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-modal-msg">Are you sure you want to proceed with this record removal?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="app.closeModal('confirm-modal')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-action-btn">Delete Record</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
